@@ -1,7 +1,7 @@
 " vint: -ProhibitUnusedVariable
 
 function! lsp#ui#vim#code_action#complete(input, command, len) abort
-    let l:server_names = filter(lsp#get_whitelisted_servers(), 'lsp#capabilities#has_code_action_provider(v:val)')
+    let l:server_names = filter(lsp#get_allowed_servers(), 'lsp#capabilities#has_code_action_provider(v:val)')
     let l:kinds = []
     for l:server_name in l:server_names
         let l:kinds += lsp#capabilities#get_code_action_kinds(l:server_name)
@@ -22,7 +22,7 @@ function! lsp#ui#vim#code_action#do(option) abort
     let l:sync = get(a:option, 'sync', v:false)
     let l:Query_filter = get(a:option, 'query_filter', v:false)
 
-    let l:server_names = filter(lsp#get_whitelisted_servers(), 'lsp#capabilities#has_code_action_provider(v:val)')
+    let l:server_names = filter(lsp#get_allowed_servers(), 'lsp#capabilities#has_code_action_provider(v:val)')
     if len(l:server_names) == 0
         return lsp#utils#error('Code action not supported for ' . &filetype)
     endif
