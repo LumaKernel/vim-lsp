@@ -66,12 +66,18 @@ endif
 command! -range -nargs=* -complete=customlist,lsp#ui#vim#code_action#complete LspCodeAction call lsp#ui#vim#code_action#do({
       \   'sync': v:false,
       \   'selection': <range> != 0,
-      \   'query': '<args>'
+      \   'query_filter': empty('<args>') ? v:false : {action -> get(action, 'kind', '') =~# '^<args>'}
       \ })
 command! -range -nargs=* -complete=customlist,lsp#ui#vim#code_action#complete LspCodeActionSync call lsp#ui#vim#code_action#do({
       \   'sync': v:true,
       \   'selection': <range> != 0,
-      \   'query': '<args>'
+      \   'query_filter': empty('<args>') ? v:false : {action -> get(action, 'kind', '') =~# '^<args>'}
+      \ })
+command! LspCodeLens call lsp#ui#vim#code_lens#do({
+      \   'sync': v:false,
+      \ })
+command! LspCodeLensSync call lsp#ui#vim#code_lens#do({
+      \   'sync': v:true,
       \ })
 command! LspCodeLens call lsp#ui#vim#code_lens#do({
       \   'sync': v:false,
